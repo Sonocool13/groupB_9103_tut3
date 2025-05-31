@@ -2,8 +2,40 @@ let segments=[]
 let degree =45
 let a=0
 let yuanshiR =100
+//import star img
+let starImg;
+
+// Meteor
+let meteorLayer;
+let meteorCount = 50;
+let minLength = 15;
+let maxLength = 40;
+let minWeight = 0.5;
+let maxWeight = 2;
+let angleDeg = 145;
+
+
+// Six gradient circles
+function drawRadialGradientCircle(x, y, r, innerColor, outerColor) {
+	for (let i = r; i > 0; --i) {
+		let t = map(i, 0, r, 1, 0);
+		let c = lerpColor(outerColor, innerColor, t);
+		fill(c);
+		noStroke();
+		ellipse(x, y, i * 2, i * 2);
+	}
+}
+
+//load star picture
+function preload() {
+	starImg = loadImage("/assets/star_white.png");
+}
+
 function setup() {
 	createCanvas(windowWidth, windowHeight);
+	meteorLayer = createGraphics(windowWidth, windowHeight); // create a meteor layer
+	drawMeteorLayer(); // Draw the meteor on the layer.
+
 	background(0);
 	//------------------------------
 	angleMode(DEGREES);
@@ -12,33 +44,61 @@ for(let i=0;i<=1000;i++){
 	circle(random(width),random(height),random(0,5))
 }
 	//------------------------------------------
+	//meteor img layer
+	image(meteorLayer, 0, 0);
 
-	//------------------------------------------
-	stroke(255)
-		//------------------------------------------
+	stroke(255);
+	push();
+	translate(width / 2, height / 2);
 
-				translate(width/2,height/2)
-
-			segments=new createMutipleCircle(0,0,random(100,200))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-
-
-
+		segments=new createMutipleCircle(0,0,random(100,200))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 		segments.drawLine()
 		segments.diverPoint()
 		segments.randomPoint()
 		segments.sanjiaoxin(90)
 		segments.sanjiaoxin(-90)
-
 		segments.moon()
 	segments.lineCircle()
 		segments.zhou()
-	
+	pop()
 
 	// drawStar(-25,0,25)
 }
 
 function draw() {
 	
+}
+
+// Meteor
+function drawMeteorLayer() {
+	meteorLayer.clear();
+	meteorLayer.noStroke();
+
+	for (let i = 0; i < meteorCount; i++) {
+		let x = random(width);
+		let y = random(height);
+		let len = random(minLength, maxLength);
+		let weight = random(minWeight, maxWeight);
+
+		let localAngle = angleDeg + random(-5, 5);
+		let angleRad = radians(localAngle);
+
+		meteorLayer.push();
+		meteorLayer.translate(x, y);
+		meteorLayer.rotate(angleRad);
+
+		// Meteor head
+		meteorLayer.fill(255, 200);
+		meteorLayer.ellipse(0, 0, weight * 1.5);
+
+		// Meteor tail
+		for (let j = 0; j < len; j++) {
+			let alpha = map(j, 0, len, 180, 20);
+			meteorLayer.fill(255, alpha);
+			meteorLayer.ellipse(j * 0.3, j, weight);
+		}
+		meteorLayer.pop();
+	}
 }
 
 //星星
@@ -103,13 +163,18 @@ lineCircle(){
 		let lineCircleX2 = sin(j)*this.size/2*1.32+this.y;
 	if (random() > 0.0176) {
 		
-  fill(255);
-  circle(lineCircleX1, lineCircleX2,this.size/100);
+    fill(255);
+    circle(lineCircleX1, lineCircleX2,this.size/100);
 } else {
-	  fill(255);
- circle(lineCircleX1, lineCircleX2, random(this.size/25,this.size/13));
+	fill(255);
+circle(lineCircleX1, lineCircleX2, random(this.size/25,this.size/13));
 }	
 }
+	//center star
+	push();
+	imageMode(CENTER);
+	image(starImg, this.x - 30, this.y, this.size * 0.3, this.size * 0.3);
+	pop();
 }		
 //---------	
 	//有问题
@@ -149,16 +214,20 @@ circle(zhouX1,zhouY1,3)
 let sr=(this.size*1.15)*2
 	push()
 	circle(this.x,this.y,sr)
-	 	pop()
-		beginShape()
- for(let j=0;j<4;j++){
-		let sx1 = cos(120*j-d)*(sr/2)+this.x;
-		let sy1 = sin(120*j-d)*(sr/2)+this.y;
-	 vertex(sx1,sy1)
-	 push()
-	 fill(255)
-	 circle(sx1,sy1,random(this.size/4))
-	 pop()
+	pop()
+
+		//gradient circle
+		beginShape();
+		for (let j = 0; j < 6; j++) {
+			let sx1 = cos(120 * j - d) * (sr / 2) + this.x;
+			let sy1 = sin(120 * j - d) * (sr / 2) + this.y;
+			vertex(sx1, sy1);
+			push();
+			let starSize = random(this.size / 4, this.size / 3);
+			let innerColor = color(255, 255, 255, 225);
+			let outerColor = color(0, 0, 0, 80);
+			drawRadialGradientCircle(sx1, sy1, starSize / 2, innerColor, outerColor);
+			pop();
 }
 	endShape()
 }
@@ -169,8 +238,8 @@ let sr=(this.size*1.15)*2
 			for(let i=0;i<6;i++){
 		let b =random(0,35)
 	push()
-	 strokeWeight(1)
-	 stroke(255,200)
+	strokeWeight(1)
+	stroke(255,200)
 				
 	let x1 = cos(drawLineDegree*j- 67.5-i*random(2.5))*this.size*random(2,3)+this.x
 		let y1 = sin(drawLineDegree*j- 67.5-i*random(2.5))*this.size*random(2,3)+this.y
@@ -191,7 +260,7 @@ let sr=(this.size*1.15)*2
 			for(let i=0;i<6;i++){
 		let c = map(i,0,5,50,25)
 	push()
-	 noStroke()
+	noStroke()
 		fill(255)
 let pointR = this.size/2.2
 	let x1 = cos(j*3)*pointR/1.3*(4-i/10)+this.x
@@ -204,18 +273,18 @@ let pointR = this.size/2.2
 	//-----------
 	randomPoint(){
 		push()
-  fill(255,50)
-  for (let j = 1; j < 100; j++) {
+fill(255,50)
+for (let j = 1; j < 100; j++) {
     for (let i = 0; i < 360; i += j / 20) {
-      let dianR = map(j, 1, 100, this.size*2.34 / 2, this.size / 2);
-      let r = random(dianR, this.size*2.34/2);         
-      let angle = random(0,i*360-j);                              
+    let dianR = map(j, 1, 100, this.size*2.34 / 2, this.size / 2);
+    let r = random(dianR, this.size*2.34/2);         
+    let angle = random(0,i*360-j);                              
       let dianX = cos(angle) * r+this.x;
       let dianY = sin(angle) * r+this.y;
-      noStroke();
-      circle(dianX, dianY, random(this.size/200, this.size/40));
+    noStroke();
+    circle(dianX, dianY, random(this.size/200, this.size/40));
     }
-  }
+}
 	pop()
 	}
 	//--------
