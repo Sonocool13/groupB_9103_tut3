@@ -3,7 +3,7 @@ let starDegree = 45
 let yuanshiR = 100
 let overallTexture
 function preload() {
-	overallTexture = loadImage("assets/Texture01.png")
+	overallTexture = loadImage("assets/Texture.png")
 }
 // Meteor
 let meteorLayer;
@@ -146,7 +146,7 @@ function drawStar(starX, starY, starSize, changeD) {
 
 			vertex(bigStarX, bigStarY)
 			vertex(smallStarX, smallStarY)
-			if (starSize / 9 < 5) {
+			if (starSize / 9 < width / 300) {
 				circle(circleX, circleY, starSize / 9)
 			}
 
