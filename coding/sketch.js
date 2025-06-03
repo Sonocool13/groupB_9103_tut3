@@ -1,17 +1,11 @@
 let coreElements = []
 let starDegree = 45
 let overallTexture
+
 function preload() {
 	overallTexture = loadImage("assets/Texture.png")
 }
-// Meteor
-let meteorLayer;
-let meteorCount = 50;
-let minLength = 15;
-let maxLength = 40;
-let minWeight = 0.5;
-let maxWeight = 2;
-let angleDeg = 145;
+
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
