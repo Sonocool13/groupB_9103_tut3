@@ -8,7 +8,14 @@ function drawRadialGradientCircle(x, y, r, innerColor, outerColor) {
     ellipse(x, y, i * 2, i * 2);
   }
 }
-
+// Meteor
+let meteorLayer;
+let meteorCount = 50;
+let minLength = 15;
+let maxLength = 40;
+let minWeight = 0.5;
+let maxWeight = 2;
+let angleDeg = 145;
 // Meteor
 function drawMeteorLayer() {
   meteorLayer.clear();

@@ -1,6 +1,5 @@
 let coreElements = []
 let starDegree = 45
-let yuanshiR = 100
 let overallTexture
 function preload() {
 	overallTexture = loadImage("assets/Texture.png")
