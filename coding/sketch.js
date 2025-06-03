@@ -25,8 +25,9 @@ function setup() {
 	angleMode(DEGREES);
 	//Background with random little stars
 	for (let i = 0; i <= 2000; i++) {
+		noStroke()
 		fill(255, random(0, 255))
-		circle(random(width), random(height), random(0, 5))
+		circle(random(width), random(height), random(0, width / 320))
 	}
 	//meteor img layer
 	image(meteorLayer, 0, 0);
@@ -35,7 +36,7 @@ function setup() {
 	push();
 
 	translate(width / 2, height / 2);
-	let totalR = 200
+	let totalR = width / 8
 
 	//Draw a random star at the bottom for decoration
 	push()
