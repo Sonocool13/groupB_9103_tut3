@@ -33,13 +33,14 @@ function setup() {
 
 	stroke(255);
 	push();
+
 	translate(width / 2, height / 2);
-	let totalR = 150
+	let totalR = 200
 
 	//Draw a random star at the bottom for decoration
 	push()
 	rotate(random(360))
-	drawStar(0, 0, totalR / 1.9)
+	drawStar(0, 0, totalR / 1.9, 0)
 	pop()
 
 	//Draw all the concentric circles
@@ -53,13 +54,12 @@ function setup() {
 	coreElements.lineCircle()
 	coreElements.decorationCircle()
 	//daw the star in the middle
-	drawStar(-totalR / 9, 0, totalR / 9)
+	drawStar(-totalR / 9, 0, totalR / 9, 0)
 	pop()
 	//Use multiple mode to add a layer of texture
 	push()
 	blendMode(MULTIPLY)
 	image(overallTexture, 0, 0, width, height)
-
 	pop()
 
 }
@@ -117,11 +117,16 @@ function drawMeteorLayer() {
 }
 
 //draw star by ‘shape’
-function drawStar(starX, starY, starSize) {
-	fill(255)
+function drawStar(starX, starY, starSize, changeD) {
+	noStroke()
+	fill('green')
 	for (let j = 0; j < 3; j++) {
-		fill(255)
 		let r = map(j, 0, 2, starSize, starSize / 3)
+		if (j % 2 !== 0) {
+			fill(0)
+		} else {
+			fill(255)
+		}
 		beginShape()
 		for (let i = 0; i <= 8; i++) {
 			if (i == 0 || i == 4 || i == 8) {
@@ -129,13 +134,13 @@ function drawStar(starX, starY, starSize) {
 			} else {
 				a = 0
 			}
-			let bigStarX = cos(starDegree * i - 90) * (r + a) * 3 / 2 + starX
-			let bigStarY = sin(starDegree * i - 90) * (r + a) * 3 / 2 + starY
-			let circleX = cos(starDegree * i - 90) * (starSize + a) * 1.7 + starX
-			let circleY = sin(starDegree * i - 90) * (starSize + a) * 1.7 + starY
+			let bigStarX = cos(starDegree * i - 90 - changeD) * (r + a) * 3 / 2 + starX
+			let bigStarY = sin(starDegree * i - 90 - changeD) * (r + a) * 3 / 2 + starY
+			let circleX = cos(starDegree * i - 90 - changeD) * (starSize + a) * 1.7 + starX
+			let circleY = sin(starDegree * i - 90 - changeD) * (starSize + a) * 1.7 + starY
 
-			let smallStarX = cos(starDegree * i - 67.5) * r / 3 + starX
-			let smallStarY = sin(starDegree * i - 67.5) * r / 3 + starY
+			let smallStarX = cos(starDegree * i - 67.5 - changeD) * r / 3 + starX
+			let smallStarY = sin(starDegree * i - 67.5 - changeD) * r / 3 + starY
 			// line(0,0,x1*width,y1*width)
 
 			vertex(bigStarX, bigStarY)
@@ -218,18 +223,20 @@ class createMutipleCircle {
 		stroke(255, 100)
 		strokeWeight(3)
 		let sr = (this.size * 1.15) * 2
-		push()
-		circle(this.x, this.y, sr)
-		pop()
+		let starSize = random(this.size / 4, this.size / 3);
 
-		//gradient circle
+		let points = []
 		beginShape();
-		for (let j = 0; j < 6; j++) {
+		for (let j = 0; j < 4; j++) {
 			let sx1 = cos(120 * j - d) * (sr / 2) + this.x;
 			let sy1 = sin(120 * j - d) * (sr / 2) + this.y;
+			if (j < 3) {
+				points.push(createVector(sx1, sy1));
+			}
 			vertex(sx1, sy1);
+			//gradient circle
 			push();
-			let starSize = random(this.size / 4, this.size / 3);
+
 			if (d < 0) {
 				let innerColor = color(255, 255, 255, 255);
 				let outerColor = color(0, 0, 0, 255);
@@ -243,13 +250,20 @@ class createMutipleCircle {
 					drawRadialGradientCircle(sx1, sy1, random(starSize / (j + 1) / 2 * 1.8), innerColor1, outerColor1);
 				}
 			}
-			fill(255)
-			//Draw the center star
-			drawStar(sx1, sy1, random(3, starSize / 5))
+
 			pop();
 		}
 		endShape()
+		//Draw the center star
+		push()
+		blendMode(LIGHTEST)
+		for (let pt of points) {
+			drawStar(pt.x, pt.y, random(starSize / 5, starSize / 4), random(360))
+		}
+		pop()
 	}
+
+
 	//Lines radiating from a circle
 	drawLine() {
 		let drawLineDegree = 45
