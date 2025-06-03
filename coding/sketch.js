@@ -36,7 +36,7 @@ function setup() {
 	push();
 
 	translate(width / 2, height / 2);
-	let totalR = width / 8
+	let totalR = width / 6
 
 	//Draw a random star at the bottom for decoration
 	push()
@@ -200,13 +200,13 @@ class createMutipleCircle {
 		circle(this.x, this.y, zhouSize)
 		pop()
 		push()
-		strokeWeight(1)
+		strokeWeight(this.size / 200)
 		stroke(255)
 		noFill()
 		circle(this.x, this.y, zhouSize * 0.97)
 		pop()
 		push()
-		strokeWeight(1)
+		strokeWeight(this.size / 200)
 		stroke(255)
 		noFill()
 		circle(this.x, this.y, zhouSize * 1.07)
@@ -215,14 +215,14 @@ class createMutipleCircle {
 			let zhouX1 = cos(j * 6) * zhouSize / 1.95 + this.x;
 			let zhouY1 = sin(j * 6) * zhouSize / 1.95 + this.y;
 			fill(255)
-			circle(zhouX1, zhouY1, 3)
+			circle(zhouX1, zhouY1, this.size / 40)
 		}
 	}
 	//Draw different triangles by angle control, and it is related to the size of the circle.
 	drawTriangle(d) {
 		noFill()
 		stroke(255, 100)
-		strokeWeight(3)
+		strokeWeight(this.size / 80)
 		let sr = (this.size * 1.15) * 2
 		let starSize = random(this.size / 4, this.size / 3);
 
@@ -272,7 +272,7 @@ class createMutipleCircle {
 			for (let i = 0; i < 6; i++) {
 				let b = random(0, 35)
 				push()
-				strokeWeight(1)
+				strokeWeight(this.size / 200)
 				stroke(255, 200)
 
 				let x1 = cos(drawLineDegree * j - 67.5 - i * random(2.5)) * this.size * random(2, 3) + this.x
