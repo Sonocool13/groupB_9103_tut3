@@ -1,7 +1,10 @@
 let coreElements = []
 let starDegree = 45
 let yuanshiR = 100
-
+let overallTexture
+function preload() {
+	overallTexture = loadImage("assets/Texture01.png")
+}
 // Meteor
 let meteorLayer;
 let meteorCount = 50;
@@ -17,18 +20,22 @@ function setup() {
 	meteorLayer = createGraphics(windowWidth, windowHeight);
 	drawMeteorLayer();
 
+
 	background(0);
 	angleMode(DEGREES);
 	//Background with random little stars
-	for (let i = 0; i <= 1000; i++) {
+	for (let i = 0; i <= 2000; i++) {
 		fill(255, random(0, 255))
 		circle(random(width), random(height), random(0, 5))
 	}
+	//meteor img layer
+	image(meteorLayer, 0, 0);
 
 	stroke(255);
 	push();
 	translate(width / 2, height / 2);
-	let totalR = random(100, 200)
+	let totalR = 150
+
 	//Draw a random star at the bottom for decoration
 	push()
 	rotate(random(360))
@@ -48,12 +55,23 @@ function setup() {
 	//daw the star in the middle
 	drawStar(-totalR / 9, 0, totalR / 9)
 	pop()
+	//Use multiple mode to add a layer of texture
+	push()
+	blendMode(MULTIPLY)
+	image(overallTexture, 0, 0, width, height)
 
+	pop()
 
 }
 
 function draw() {
 
+}
+
+//As the canvas size changes
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
+	setup()
 }
 // Six gradient circles
 function drawRadialGradientCircle(x, y, r, innerColor, outerColor) {
