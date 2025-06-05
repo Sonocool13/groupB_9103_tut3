@@ -40,8 +40,8 @@ function drawMeteorLayer() {
 
     // Meteor tail
     for (let j = 0; j < len; j++) {
-      let alpha = map(j, 0, len, 180, 20);
-      meteorLayer.fill(255, alpha);
+      let tail = map(j, 0, len, 180, 20);
+      meteorLayer.fill(255, tail);
       meteorLayer.ellipse(j * 0.3, j, weight);
     }
     meteorLayer.pop();
