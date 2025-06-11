@@ -73,7 +73,6 @@ function drawStar(starX, starY, starSize, changeD) {
 
       let smallStarX = cos(starDegree * i - 67.5 - changeD) * r / 3 + starX
       let smallStarY = sin(starDegree * i - 67.5 - changeD) * r / 3 + starY
-      // line(0,0,x1*width,y1*width)
 
       vertex(bigStarX, bigStarY)
       vertex(smallStarX, smallStarY)

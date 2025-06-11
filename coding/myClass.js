@@ -1,5 +1,5 @@
 //Control all concentric circles with the same center and size.
-class createMutipleCircle {
+class createMultipleCircle {
   constructor(centerX, centerY, centerSize) {
     this.x = centerX
     this.y = centerY
