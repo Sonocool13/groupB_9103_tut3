@@ -8,6 +8,7 @@ class createMultipleCircle {
   //draw the moon
   drawMoon() {
     noStroke()
+    //Determine the odd and even numbers and fill them with different colors
     for (let j = 0; j < 3; j++) {
       if (j % 2 == 0) {
         fill(0)
@@ -23,8 +24,8 @@ class createMultipleCircle {
     for (let j = 0; j < 360 / 2; j++) {
       let lineCircleX1 = cos(j * 2) * this.size / 2 * 1.32 + this.x;
       let lineCircleX2 = sin(j * 2) * this.size / 2 * 1.32 + this.y;
+      //Use random() to control the probability of the two circles appearing
       if (random() > 0.0176) {
-
         fill(255);
         circle(lineCircleX1, lineCircleX2, this.size / 100);
       } else {
@@ -42,18 +43,21 @@ class createMultipleCircle {
     let zhouSize = this.size * 1.075
     circle(this.x, this.y, zhouSize)
     pop()
+    //Draw the inner circle
     push()
     strokeWeight(this.size / 200)
     stroke(255)
     noFill()
     circle(this.x, this.y, zhouSize * 0.97)
     pop()
+    //Draw the outer circle
     push()
     strokeWeight(this.size / 200)
     stroke(255)
     noFill()
     circle(this.x, this.y, zhouSize * 1.07)
     pop()
+    //Draw a circle of small circles
     for (let j = 0; j < 360 / 6; j++) {
       let zhouX1 = cos(j * 6) * zhouSize / 1.95 + this.x;
       let zhouY1 = sin(j * 6) * zhouSize / 1.95 + this.y;
@@ -70,15 +74,17 @@ class createMultipleCircle {
     let starSize = random(this.size / 4, this.size / 3);
 
     let points = []
+    //Draw a closed shape image through beginShape() and endShape(). The three points are a triangle.
     beginShape();
     for (let j = 0; j < 4; j++) {
       let sx1 = cos(120 * j - d) * (sr / 2) + this.x;
       let sy1 = sin(120 * j - d) * (sr / 2) + this.y;
+      //A pair of coordinates can be stored through a vector, refer to the p5js website: https://p5js.org/reference/p5/createVector/
       if (j < 3) {
         points.push(createVector(sx1, sy1));
       }
       vertex(sx1, sy1);
-      //gradient circle
+      //draw gradient circles
       push();
 
       if (d < 0) {
